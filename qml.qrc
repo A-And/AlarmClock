@@ -1,8 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Page1.qml</file>
-        <file>Page1Form.ui.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>CurrentTimePage.qml</file>
+        <file>RadialClock.qml</file>
+        <file>minuteHand.png</file>
+        <file>hourHand.png</file>
+        <file>secondHand.png</file>
+        <file>clockFace.png</file>
     </qresource>
 </RCC>

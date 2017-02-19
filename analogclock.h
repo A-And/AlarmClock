@@ -1,11 +1,22 @@
-#ifndef RADIALCLOCK_H
-#define RADIALCLOCK_H
+#ifndef ANALOGCLOCK_H
+#define ANALOGCLOCK_H
 
+#include <QtWidgets>
+#include <QTimer>
 
-class RadialClock : public QLCDNumber
+class AnalogClock : public QWidget
+
 {
+    Q_OBJECT
 public:
-    RadialClock();
+    AnalogClock(QWidget* p = 0);
+    void showTime();
+protected:
+    void paintEvent(QPaintEvent* event) override;
+
+private:
+    QTimer* timer;
+    int m_timerId;
 };
 
-#endif // RADIALCLOCK_H
+#endif // ANALOGCLOCK_H
