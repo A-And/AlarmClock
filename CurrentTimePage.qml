@@ -4,7 +4,7 @@ Rectangle{
     id: root
     x: 0
     y: 0
-    color:"#646464"
+    color:"#FFF"
 
     RadialClock {
         anchors.centerIn: parent

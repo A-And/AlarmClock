@@ -17,8 +17,8 @@ Item {
         night = ( hours < 7 || hours > 19 )
         minutes = internationalTime ? date.getUTCMinutes() + ((clock.shift % 1) * 60) : date.getMinutes()
         seconds = date.getUTCSeconds();
-        minutes = date.getUTCSeconds();
-        hours = date.getUTCSeconds();
+        minutes = date.getUTCMinutes();
+        hours = date.getUTCHours();
 
     }
 
