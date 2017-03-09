@@ -15,6 +15,9 @@ ApplicationWindow {
         CurrentTimePage{
 
         }
+        weatherinfo{
+
+        }
 
     }
 

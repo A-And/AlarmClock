@@ -8,5 +8,6 @@
         <file>hourHand.png</file>
         <file>secondHand.png</file>
         <file>clockFace.png</file>
+        <file>weatherinfo.qml</file>
     </qresource>
 </RCC>
