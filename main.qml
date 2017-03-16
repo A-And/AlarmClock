@@ -4,31 +4,13 @@ import QtQuick.Layouts 1.0
 
 ApplicationWindow {
     visible: true
-    width: 640
+    width: 320
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("My Honey Otter's Clock")
 
-    SwipeView {
-        id: swipeView
-        anchors.fill: parent
-        currentIndex: tabBar.currentIndex
-        CurrentTimePage{
+   WeatherPage{
+       width:320
+       height:480
+   }
 
-        }
-        weatherinfo{
-
-        }
-
-    }
-
-    footer: TabBar {
-        id: tabBar
-        currentIndex: swipeView.currentIndex
-        TabButton {
-            text: qsTr("First")
-        }
-        TabButton {
-            text: qsTr("Second")
-        }
-    }
 }

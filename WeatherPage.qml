@@ -37,11 +37,10 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
-import QtQuick 2.0
 import "components"
-//! [0]
+import QtQuick 2.0
 import WeatherInfo 1.0
+//! [0]
 
 Item {
     id: window
@@ -72,6 +71,9 @@ Item {
             else
                 window.state = "loading"
         }
+        onUtcOffsetChanged: {
+            clock.shift = model.utcOffset
+        }
     }
 //! [1]
     Item {
@@ -90,6 +92,7 @@ Item {
         anchors.fill: parent
 
         Column {
+            id: column
             spacing: 6
 
             anchors {
@@ -99,8 +102,8 @@ Item {
 
             Rectangle {
                 width: parent.width
-                height: 25
-                color: "lightgrey"
+                height: 15
+                color: "pink"
 
                 Text {
                     text: (model.hasValidCity ? model.city : "Unknown location") + (model.useGps ? " (GPS)" : "")
@@ -114,20 +117,20 @@ Item {
                     onClicked: {
                         if (model.useGps) {
                             model.useGps = false
-                            model.city = "Brisbane"
+                            model.city = "Berlin"
                         } else {
                             switch (model.city) {
-                            case "Brisbane":
-                                model.city = "Oslo"
+                            case "Berlin":
+                                model.city = "Newcastle upon Tyne"
                                 break
-                            case "Oslo":
-                                model.city = "Helsinki"
+                            case "Newcastle upon Tyne":
+                                model.city = "Varna"
                                 break
-                            case "Helsinki":
-                                model.city = "New York"
+                            case "Varna":
+                                model.city = "Berlin"
                                 break
-                            case "New York":
-                                model.useGps = true
+                            default:
+                                model.city = "Berlin"
                                 break
                             }
                         }
@@ -135,32 +138,17 @@ Item {
                 }
             }
 
-//! [3]
-            BigForecastIcon {
-                id: current
-
-                width: main.width -12
-                height: 2 * (main.height - 25 - 12) / 3
-
-                weatherIcon: (model.hasValidWeather
-                          ? model.weather.weatherIcon
-                          : "01d")
-//! [3]
-                topText: (model.hasValidWeather
-                          ? model.weather.temperature
-                          : "??")
-                bottomText: (model.hasValidWeather
-                             ? model.weather.weatherDescription
-                             : "No weather data")
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        model.refreshWeather()
-                    }
-                }
-//! [4]
+            RadialClock{
+                id:clock
+                width:parent.width
+                anchors.verticalCenterOffset: parent.height/8
+                anchors.verticalCenter: parent.verticalCenter
+                transformOrigin: Item.Center
+                anchors.leftMargin: clock.width/2
+                anchors.top: iconRow.bottom
+                city:model.city
             }
+
 //! [4]
 
             Row {

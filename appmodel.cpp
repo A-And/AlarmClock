@@ -144,9 +144,11 @@ public:
     QNetworkSession *ns;
     WeatherData now;
     QList<WeatherData*> forecast;
+    int utcOffset;
     QQmlListProperty<WeatherData> *fcProp;
     QSignalMapper *geoReplyMapper;
     QSignalMapper *weatherReplyMapper, *forecastReplyMapper;
+    QSignalMapper *utcOffsetMapper;
     bool ready;
     bool useGps;
     QElapsedTimer throttle;
@@ -156,6 +158,10 @@ public:
     QTimer requestNewWeatherTimer;
     QString app_ident;
 
+    int hours;
+    int minutes;
+    int seconds;
+
     AppModelPrivate() :
             src(NULL),
             nam(NULL),
@@ -164,6 +170,7 @@ public:
             ready(false),
             useGps(true),
             nErrors(0),
+            utcOffset(0),
             minMsBeforeNewRequest(baseMsBeforeNewRequest)
     {
         delayedCityRequestTimer.setSingleShot(true);
@@ -250,6 +257,7 @@ AppModel::~AppModel()
     delete d;
 }
 
+
 //! [2]
 void AppModel::networkSessionOpened()
 {
@@ -282,7 +290,6 @@ void AppModel::positionUpdated(QGeoPositionInfo gpsPos)
     queryCity();
 }
 //! [3]
-
 void AppModel::queryCity()
 {
     //don't update more often then once a minute
@@ -495,7 +502,12 @@ void AppModel::handleForecastNetworkData(QObject *replyObj)
             //get date
             jv = subtree.value(QStringLiteral("dt"));
             QDateTime dt = QDateTime::fromMSecsSinceEpoch((qint64)jv.toDouble()*1000);
+            QDateTime current = QDateTime::currentDateTimeUtc();
             forecastEntry->setDayOfWeek(dt.date().toString(QStringLiteral("ddd")));
+            qCDebug(requestsLog) << "got offset" << dt.time();
+            d->utcOffset = (current.time().hour() - dt.time().hour()) + 1;
+            emit offsetChanged();
+            qCDebug(requestsLog) << "got offset" << d->utcOffset;
 
             //get icon
             QJsonArray weatherArray = subtree.value(QStringLiteral("weather")).toArray();
@@ -544,7 +556,10 @@ bool AppModel::ready() const
 {
     return d->ready;
 }
-
+int AppModel::utcOffset() const
+{
+    return d->utcOffset;
+}
 bool AppModel::hasSource() const
 {
     return (d->src != NULL);

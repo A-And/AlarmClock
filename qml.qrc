@@ -8,6 +8,16 @@
         <file>hourHand.png</file>
         <file>secondHand.png</file>
         <file>clockFace.png</file>
-        <file>weatherinfo.qml</file>
+        <file>WeatherPage.qml</file>
+        <file>components/BigForecastIcon.qml</file>
+        <file>components/ForecastIcon.qml</file>
+        <file>components/WeatherIcon.qml</file>
+        <file>analogclock.cpp</file>
+        <file>analogclock.h</file>
+        <file>appmodel.cpp</file>
+        <file>appmodel.h</file>
+        <file>main.cpp</file>
+        <file>heart.png</file>
+        <file>ValueHolder.qml</file>
     </qresource>
 </RCC>

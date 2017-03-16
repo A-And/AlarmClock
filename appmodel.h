@@ -121,18 +121,23 @@ class AppModel : public QObject
     Q_PROPERTY(QQmlListProperty<WeatherData> forecast
                READ forecast
                NOTIFY weatherChanged)
+    Q_PROPERTY(int utcOffset
+               READ utcOffset
+               NOTIFY offsetChanged)
 
 public:
     explicit AppModel(QObject *parent = 0);
     ~AppModel();
 
     bool ready() const;
+    int utcOffset() const;
     bool hasSource() const;
     bool useGps() const;
     bool hasValidCity() const;
     bool hasValidWeather() const;
     void setUseGps(bool value);
     void hadError(bool tryAgain);
+    void setClock();
 
     QString city() const;
     void setCity(const QString &value);
@@ -160,6 +165,7 @@ signals:
     void useGpsChanged();
     void cityChanged();
     void weatherChanged();
+    void offsetChanged();
 
 //! [3]
 

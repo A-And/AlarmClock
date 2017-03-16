@@ -1,31 +1,44 @@
 import QtQuick 2.0
-
+import WeatherInfo 1.0
 Item {
     id : clock
 
     property int hours
     property int minutes
     property int seconds
-    property real shift
+    property int shift
     property bool night: false
     property bool internationalTime: true //Unset for local time
-
+    property string city
 
     function timeChanged() {
         var date = new Date;
+
         hours = internationalTime ? date.getUTCHours() + Math.floor(clock.shift) : date.getHours()
         night = ( hours < 7 || hours > 19 )
         minutes = internationalTime ? date.getUTCMinutes() + ((clock.shift % 1) * 60) : date.getMinutes()
         seconds = date.getUTCSeconds();
-        minutes = date.getUTCMinutes();
-        hours = date.getUTCHours();
-
     }
+
+    //! [1]
+        AppModel {
+            id: model
+            onReadyChanged: {
+                if (model.ready)
+                    window.state = "ready"
+                else
+                    window.state = "loading"
+            }
+            onOffsetChanged: {
+                clock.shift = model.utcOffset
+            }
+        }
 
     Timer {
         interval: 100; running: true; repeat: true;
         onTriggered: clock.timeChanged()
     }
+
     Image{
         anchors.centerIn: parent
         id:background;
@@ -83,6 +96,17 @@ Item {
                 SpringAnimation { spring: 2; damping: 0.2; modulus: 360 }
             }
         }
+    }
+    Image{
+        id: heart
+        anchors.verticalCenterOffset: 3
+        z: 9
+        sourceSize.height: 25
+        sourceSize.width: 25
+        source:"heart.png"
+        anchors.horizontalCenter: background.horizontalCenter;
+        anchors.verticalCenter: background.verticalCenter;
+                anchors.horizontalCenterOffset: 2
     }
 
 
